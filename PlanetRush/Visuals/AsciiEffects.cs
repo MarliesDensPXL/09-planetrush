@@ -135,6 +135,7 @@ namespace PlanetRush.Visuals
         }
         #endregion
 
+        #region Planet
         public static void DrawPlanet(Planet planet, int topOffset = 2)
         {
             int radius = planet.Radius;
@@ -160,8 +161,6 @@ namespace PlanetRush.Visuals
             };
             ConsoleColor seaColor = possibleColors[rng.Next(4)];
             ConsoleColor landColor = possibleColors[rng.Next(4, possibleColors.Length)];
-
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             for (int y = -radius; y <= radius; y++)
             {
@@ -191,19 +190,162 @@ namespace PlanetRush.Visuals
                     }
                 }
             }
-            Console.SetCursorPosition(0,0);
+            Console.SetCursorPosition(0, 0);
             Console.ResetColor();
         }
+        #endregion
+
+        #region Star
+        public static void DrawStar(Random rand)
+        {
+            double p = rand.NextDouble() * 0.17 + 0.15;
+            int numberOfSpikes = rand.Next(2, 7);
+            double spikeStrength = Math.Sqrt(rand.NextDouble() * 2) / 10 + 0.05;
+            int[] allowedColors = { 4, 11, 12, 14, 14, 14, 15, 15 };
+            ConsoleColor color = (ConsoleColor)allowedColors[rand.Next(allowedColors.Length)];
+
+            int charStartX = Console.WindowWidth / 2;
+            int charWidth = Console.WindowWidth - charStartX - 5;
+            int charHeight = Console.WindowHeight - 5;
+            charStartX += 15;
+            int size = Math.Min(charWidth, charHeight);
+            charHeight = size;
+            charWidth = size * 2;
+
+            DrawPSquircle(charStartX, 3, charWidth, charHeight, p, color, numberOfSpikes, spikeStrength);
+
+            Console.SetCursorPosition(0, 7);
+            Console.ResetColor();
+        }
+
+
+        static void DrawPSquircle(int xStart, int yStart, int xWidth, int yHeight, double p, ConsoleColor color, int numberOfSpikes, double spikeStrength)
+        {
+            int pixelWidth = xWidth * 2;
+            int pixelHeight = yHeight * 4;
+
+            double centerX = pixelWidth / 2.0;
+            double centerY = pixelHeight / 2.0;
+
+            bool[,] pixels = new bool[pixelWidth, pixelHeight];
+
+            int samples = 1024;
+            double[] rawR = new double[samples];
+            double maxRawR = 0;
+            for (int i = 0; i < samples; i++)
+            {
+                double theta = (i / (double)samples) * Math.PI * numberOfSpikes;
+                double cosT = Math.Cos(theta);
+                double sinT = Math.Sin(theta);
+                double r = Math.Pow(Math.Pow(Math.Abs(cosT), p) + Math.Pow(Math.Abs(sinT), p), -1.0 / p);
+                rawR[i] = r;
+                if (r > maxRawR) maxRawR = r;
+            }
+
+            if (maxRawR <= 0) maxRawR = 1.0;
+
+            double bias = 0.01;
+            double gamma = 0.7;
+            for (int i = 0; i < samples; i++)
+            {
+                double norm = rawR[i] / maxRawR;
+                rawR[i] = bias + (1.0 - bias) * Math.Pow(norm, gamma);
+            }
+
+            int radialSteps = Math.Max(20, (int)(pixelWidth * 0.8));
+            double rxPixels = pixelWidth / 2.0;
+            double ryPixels = pixelHeight / 2.0;
+            int spikes = numberOfSpikes;
+
+            for (int i = 0; i < samples; i++)
+            {
+                double theta = (i / (double)samples) * Math.PI * 2;
+                double cosT = Math.Cos(theta);
+                double sinT = Math.Sin(theta);
+
+                double baseR = rawR[i];
+                double spikeWave = Math.Pow(Math.Abs(Math.Sin(spikes * theta)), 5.0);
+                double rMod = baseR * (1.0 + spikeStrength * spikeWave);
+
+                for (int s = 0; s <= radialSteps; s++)
+                {
+                    double t = s / (double)radialSteps;
+                    double curR = t * rMod;
+                    double fx = centerX + curR * rxPixels * cosT;
+                    double fy = centerY + curR * ryPixels * sinT;
+
+                    int px = (int)Math.Round(fx);
+                    int py = (int)Math.Round(fy);
+                    if (px >= 0 && px < pixelWidth && py >= 0 && py < pixelHeight)
+                        pixels[px, py] = true;
+                }
+            }
+
+            DrawBrailleBuffer(pixels, xStart, yStart, xWidth, yHeight, color);
+        }
+
+        static void DrawBrailleBuffer(bool[,] pixels, int xStart, int yStart, int xWidth, int yHeight, ConsoleColor color)
+        {
+            int pixelWidth = pixels.GetLength(0);
+            int pixelHeight = pixels.GetLength(1);
+
+            Console.ForegroundColor = color;
+
+            for (int by = 0; by < yHeight; by++)
+            {
+                for (int bx = 0; bx < xWidth; bx++)
+                {
+                    int code = 0;
+                    for (int dy = 0; dy < 4; dy++)
+                    {
+                        for (int dx = 0; dx < 2; dx++)
+                        {
+                            int px = bx * 2 + dx;
+                            int py = by * 4 + dy;
+                            if (px >= 0 && px < pixelWidth && py >= 0 && py < pixelHeight && pixels[px, py])
+                                code |= DotMask(dx, dy);
+                        }
+                    }
+
+                    if (code != 0)
+                    {
+                        int drawX = xStart + bx;
+                        int drawY = yStart + by;
+                        if (drawX >= 0 && drawX < Console.WindowWidth &&
+                            drawY >= 0 && drawY < Console.WindowHeight)
+                        {
+                            Console.SetCursorPosition(drawX, drawY);
+                            Console.Write((char)(0x2800 + code));
+                        }
+                    }
+                }
+            }
+
+            Console.ResetColor();
+        }
+
+        static int DotMask(int dx, int dy)
+        {
+            int[,] dotNumbers = {
+                {1,4},
+                {2,5},
+                {3,6},
+                {7,8}
+            };
+            int dot = dotNumbers[dy, dx];
+            return 1 << (dot - 1);
+        }
+        #endregion
 
         public static void WriteMenuOption(string optionText, bool isCurrentlyChosen = false)
         {
             if (isCurrentlyChosen)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                int padding = 2; // spaces around text
+                int padding = 2;
                 int boxWidth = optionText.Length + padding * 2;
                 int consoleWidth = Console.WindowWidth;
-                boxWidth = Math.Min(boxWidth, consoleWidth-1);
+                boxWidth = Math.Min(boxWidth, consoleWidth - 1);
                 Console.WriteLine(" " + new string('-', boxWidth));
                 Console.WriteLine("|" + new string(' ', padding) + optionText + new string(' ', padding) + "|");
                 Console.WriteLine(" " + new string('-', boxWidth));
@@ -219,8 +361,8 @@ namespace PlanetRush.Visuals
 
         public static async Task RevealTextAsync(string text, int startX, int startY, int delayMs = 50)
         {
-            const int minAscii = 33;  // '!'
-            const int maxAscii = 126; // '~'
+            const int minAscii = 33;
+            const int maxAscii = 126;
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i <= text.Length; i++)
             {
@@ -235,6 +377,12 @@ namespace PlanetRush.Visuals
                 await Task.Delay(delayMs);
                 sb.Clear();
             }
+        }
+
+        public static void PressEnterToContinue()
+        {
+            Console.WriteLine("\nPress Enter to continue...");
+            while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
         }
 
     }
