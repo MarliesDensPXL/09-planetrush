@@ -48,5 +48,10 @@ namespace PlanetRush.Models
 			Spacecraft.CurrentFuel += fuel;
 		}
 
+		public void TravelLightYears(int ligthYears)
+		{
+			Spacecraft.CurrentFuel -= (ligthYears * Spacecraft.EngineEfficiency);
+		}
+
     }
 }
