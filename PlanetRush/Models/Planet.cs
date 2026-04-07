@@ -8,6 +8,13 @@ namespace PlanetRush.Models
 {
     internal class Planet
     {
+		public Planet()
+		{
+			galaxyCode = 0;
+		}
+		
+		
+		
 		private int _radius;
 
 		public int Radius
@@ -81,7 +88,6 @@ namespace PlanetRush.Models
 		}
 
 		
-
 		public int ResourceDensity
 		{
 			get { return ((TonsOfRawAetherium + TonsOfTrilliumAlloys)/10); }
