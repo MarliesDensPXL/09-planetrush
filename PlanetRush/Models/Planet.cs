@@ -80,6 +80,14 @@ namespace PlanetRush.Models
 			set { _numberOfLightYearsToReach = value; }
 		}
 
+		
+
+		public int ResourceDensity
+		{
+			get { return ((TonsOfRawAetherium + TonsOfTrilliumAlloys)/10); }
+			
+		}
+
 
 
 
