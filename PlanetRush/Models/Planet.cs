@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,16 +19,16 @@ namespace PlanetRush.Models
         public Planet(int galaxyCode)
         {
 			
-			Radius = rng.Next(4, 14);
-			Seed = rng.Next();
-			Name = GeneratePlanetCode(galaxyCode);
-			TonsOfRawAetherium = rng.Next(10, 111);
-			TonsOfTrilliumAlloys = rng.Next(-10, 31);
-			if (TonsOfTrilliumAlloys < 0)
+			_radius = rng.Next(4, 14);
+			_seed = rng.Next();
+			_name = GeneratePlanetCode(galaxyCode);
+			_tonsOfRawAetherium = rng.Next(10, 111);
+			_tonsOfTrilliumAlloys = rng.Next(-10, 31);
+			if (_tonsOfTrilliumAlloys < 0)
 			{
-				TonsOfTrilliumAlloys = 0;
+				_tonsOfTrilliumAlloys = 0;
 			}
-			NumberOfLightYearsToReach = rng.Next(5 - 20);
+			_numberOfLightYearsToReach = rng.Next(5 - 20);
 
 			ConfigureCorrectOption();
         }
@@ -114,26 +115,51 @@ namespace PlanetRush.Models
 
 		private void ConfigureCorrectOption()
 		{
-			NeedsTerraforming = false;
-			NeedsGenestealing = false;
-			NeedsNuking = false;
+			_needsTerraforming = false;
+			_needsGenestealing = false;
+			_needsNuking = false;
 			int isTrue = rng.Next(3);
 			switch (isTrue)
 			{
 				case 0:
-					NeedsTerraforming = true;
+					_needsTerraforming = true;
 					break;
 				case 1:
-					NeedsGenestealing = true;
+					_needsGenestealing = true;
 					break;
 
 				case 2:
-					NeedsNuking = true;
+					_needsNuking = true;
 					break;
 			}
-			
+
+					
 		}
 
+		private string GeneratePlanetCode(int galaxyCode = 0)
+		{
+			string part1Name;
+			if (galaxyCode == 1)
+			{
+				part1Name = "M31";
+			}
+			else if (galaxyCode == 2)
+			{
+				part1Name = "M33";
+			}
+			else
+			{
+				part1Name = "MW";
+			}
+
+            char randomChar1 = (char)rng.Next('A', 'Z');
+            char randomChar2 = (char)rng.Next('A', 'Z');
+
+			int part3Name = rng.Next(1000 - 10000);
+
+            _name = $"{part1Name}-{randomChar1}{randomChar2}-{part3Name}";
+				return _name;
+		}
 
 
 
