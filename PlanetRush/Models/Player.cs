@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace PlanetRush.Models
 {
-    internal class Player
-    {
+	internal class Player
+	{
 		private int _tonsOfTrilliumAlloys;
 
 		public int TonsOfTrilliumAlloys
@@ -35,13 +35,18 @@ namespace PlanetRush.Models
 		public int LitersOfFuel
 		{
 			get { return Spacecraft.CurrentFuel; }
-			
+
 		}
 
-        public Player()
-        {
+		public Player()
+		{
 			Spacecraft spacecraft = new Spacecraft();
-        }
+		}
+
+		public void AddFuel(int fuel)
+		{
+			Spacecraft.CurrentFuel += fuel;
+		}
 
     }
 }
