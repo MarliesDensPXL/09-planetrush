@@ -58,7 +58,14 @@ namespace PlanetRush.Models
 			set { _currentFuel = (Math.Min(value, FuelCapacity)); }
 		}
 
+        public Spacecraft()
+        {
+			FuelCapacity = 1000;
+			CurrentFuel = FuelCapacity;
+			CargoCapacity = 1000;
+			EngineEfficiency = 10;
+			HasWarpDriveCharge = false;
+        }
 
-
-	}
+    }
 }
