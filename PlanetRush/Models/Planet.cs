@@ -12,10 +12,25 @@ namespace PlanetRush.Models
 		{
 			galaxyCode = 0;
 		}
-		
-		
-		
-		private int _radius;
+
+        public Planet(int galaxyCode)
+        {
+			Random rng = new Random();
+			Radius = rng.Next(4, 14);
+			Seed = rng.Next();
+			Name = GeneratePlanetCode(galaxyCode);
+			TonsOfRawAetherium = rng.Next(10, 111);
+			TonsOfTrilliumAlloys = rng.Next(-10, 31);
+			if (TonsOfTrilliumAlloys < 0)
+			{
+				TonsOfTrilliumAlloys = 0;
+			}
+			NumberOfLightYearsToReach = rng.Next(5 - 20);
+
+			ConfigureCorrectOption();
+        }
+
+        private int _radius;
 
 		public int Radius
 		{
