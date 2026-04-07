@@ -8,14 +8,16 @@ namespace PlanetRush.Models
 {
     internal class Planet
     {
-		public Planet()
+        Random rng = new Random();
+
+        public Planet()
 		{
 			galaxyCode = 0;
 		}
 
         public Planet(int galaxyCode)
         {
-			Random rng = new Random();
+			
 			Radius = rng.Next(4, 14);
 			Seed = rng.Next();
 			Name = GeneratePlanetCode(galaxyCode);
@@ -106,6 +108,29 @@ namespace PlanetRush.Models
 		public int ResourceDensity
 		{
 			get { return ((TonsOfRawAetherium + TonsOfTrilliumAlloys)/10); }
+			
+		}
+
+
+		private void ConfigureCorrectOption()
+		{
+			NeedsTerraforming = false;
+			NeedsGenestealing = false;
+			NeedsNuking = false;
+			int isTrue = rng.Next(3);
+			switch (isTrue)
+			{
+				case 0:
+					NeedsTerraforming = true;
+					break;
+				case 1:
+					NeedsGenestealing = true;
+					break;
+
+				case 2:
+					NeedsNuking = true;
+					break;
+			}
 			
 		}
 
