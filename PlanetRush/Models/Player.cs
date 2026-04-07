@@ -32,5 +32,11 @@ namespace PlanetRush.Models
 			set { _spacecraft = value; }
 		}
 
+		public int LitersOfFuel
+		{
+			get { return Spacecraft.CurrentFuel; }
+			
+		}
+
 	}
 }
