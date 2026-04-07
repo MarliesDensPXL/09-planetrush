@@ -38,5 +38,10 @@ namespace PlanetRush.Models
 			
 		}
 
-	}
+        public Player()
+        {
+			Spacecraft spacecraft = new Spacecraft();
+        }
+
+    }
 }
