@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,6 +29,32 @@ namespace PlanetRush.Models
                 }
             }
         }
+
+        private bool _hasWarpDriveChargesForSale;
+
+        public bool HasWarpDriveChargesForSale
+        {
+            get { return _hasWarpDriveChargesForSale; }
+            set { _hasWarpDriveChargesForSale = value; }
+        }
+
+        private int _fuelForMetalRate;
+
+        public int FuelForMetalRate
+        {
+            get { return _fuelForMetalRate; }
+            set { _fuelForMetalRate = value; }
+        }
+
+        private Planet _planet;
+
+        public Planet Planet
+        {
+            get { return _planet; }
+            set { _planet = value; }
+        }
+
+
 
     }
 
