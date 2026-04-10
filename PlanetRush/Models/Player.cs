@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PlanetRush.Models
 {
-	internal class Player
+	public class Player
 	{
 		private int _tonsOfTrilliumAlloys;
 

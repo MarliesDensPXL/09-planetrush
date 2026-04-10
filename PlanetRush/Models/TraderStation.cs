@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
+using PlanetRush.Sounds;
 
 namespace PlanetRush.Models
 {
@@ -78,6 +79,73 @@ namespace PlanetRush.Models
             HasWarpDriveChargesForSale = (rng.Next(10) == 0); // alleen als het 0 is true, bij 1 tem 9 false
         }
 
+        public void Visit(Player player)
+        {
+            Console.WriteLine(@$"The alien-looking trader greets you as you enter his home.
+            The station is crawling with robotic servants.
+
+             'Welcome in the Trader Station of {Planet.Name}.
+             I'm looking to buy {DesiredMetal}. Do you have any?
+              I can trade you for it, fellow space explorer.'
+               ");
+
+            string traderStationOptions = $" 1. Sell {DesiredMetal} for Fuel ({FuelForMetalRate} per ton of {DesiredMetal})\n" +
+" 2. Leave and travel to the next planet\n" +
+" 3. Look at your travel logs";
+            string option;
+            do
+            {
+                Console.WriteLine($"{traderStationOptions}");
+                Console.WriteLine();
+                Console.Write("Choose an option: ");
+                option = Console.ReadLine();
+                while (option != "1" || option != "2")
+                {
+                    Console.Write("Choose a valid option instead: ");
+                }
+                switch (option)
+                {
+                    case "1":
+                        SellMetals(player);
+                        break;
+
+                    case "2":
+                        string leaveTraderStation = "You leave the safety of the trader station and journey back into the eternal void of deepspace.";
+                        Console.WriteLine($"{leaveTraderStation}");
+                        break;
+                }
+
+
+            } while (option != "2") ;
+
+
+        }
+
+        private void SellMetals(Player player)
+        {
+            int carriedTons = DesiredMetal == TrilliumAlloys ? player.TonsOfTrilliumAlloys : player.TonsOfRawAetherium;
+            Console.WriteLine("How many tons do you sell?");
+            Console.WriteLine($"You currently carry {carriedTons} tons.");
+            Console.WriteLine($"Your spacecraft has {player.Spacecraft.CurrentFuel}/{player.Spacecraft.FuelCapacity} liters.");
+            int chosenAmount;
+            while (!int.TryParse(Console.ReadLine(), out chosenAmount) || chosenAmount > carriedTons || chosenAmount < 0)
+            {
+                SoundBoard.PlayFailSound();
+                Console.Write("Chose a valid amount instead: ");
+            }
+            if (DesiredMetal == TrilliumAlloys)
+            {
+                player.TonsOfTrilliumAlloys -= chosenAmount;
+            }
+            else
+            {
+                player.TonsOfRawAetherium -= chosenAmount;
+            }
+
+            player.AddFuel(chosenAmount * FuelForMetalRate);
+            SoundBoard.PlayConfirmSound();
+            Console.WriteLine($"You sold {chosenAmount} tons of metals and bought {chosenAmount * FuelForMetalRate} liters of fuel");
+        }
 
     }
 
