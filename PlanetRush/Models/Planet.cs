@@ -13,7 +13,6 @@ namespace PlanetRush.Models
 
 		public Planet() : this(0) //constructor chaining
 		{
-			
 		}
 
         public Planet(int galaxyCode)
@@ -152,7 +151,7 @@ namespace PlanetRush.Models
 				part1Name = "MW";
 			}
 
-            char randomChar1 = (char)rng.Next('A', 'Z');
+            char randomChar1 = (char)rng.Next('A', 'Z'); //random letter genereren
             char randomChar2 = (char)rng.Next('A', 'Z');
 
 			int part3Name = rng.Next(1000, 10000);
