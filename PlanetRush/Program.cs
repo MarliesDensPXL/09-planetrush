@@ -16,6 +16,7 @@ namespace PlanetRush
             int numberOfPlanetsTravelled = 1;
             Planet planet = new Planet();
             bool isSuccesfullExcavation = false;
+            
 
             while (player.LitersOfFuel >= 0)
             {

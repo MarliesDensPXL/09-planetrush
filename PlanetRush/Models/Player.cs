@@ -32,18 +32,21 @@ namespace PlanetRush.Models
 			set { _spacecraft = value; }
 		}
 
-		public int LitersOfFuel
-		{
-			get { return Spacecraft.CurrentFuel; }
-
-		}
+		
 
 		public Player()
 		{
-			Spacecraft spacecraft = new Spacecraft();
+			Spacecraft = new Spacecraft(); //code aangepast van 'Spacecraft spacecraft = new Spacecraft(); naar dit (op aanraden van Copilot)
 		}
 
-		public void AddFuel(int fuel)
+        public int LitersOfFuel
+        {
+
+            get { return Spacecraft.CurrentFuel; }
+
+        }
+
+        public void AddFuel(int fuel)
 		{
 			Spacecraft.CurrentFuel += fuel;
 		}

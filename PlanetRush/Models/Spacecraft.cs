@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PlanetRush.Models
 {
-    internal class Spacecraft
+    public class Spacecraft
     {
 		private string _name;
 

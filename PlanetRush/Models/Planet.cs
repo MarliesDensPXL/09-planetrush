@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace PlanetRush.Models
 {
-    internal class Planet
+    public class Planet
     {
         Random rng = new Random();
 
-        public Planet()
+		public Planet() : this(0) //constructor chaining
 		{
-			galaxyCode = 0;
+			
 		}
 
         public Planet(int galaxyCode)
@@ -28,7 +28,7 @@ namespace PlanetRush.Models
 			{
 				_tonsOfTrilliumAlloys = 0;
 			}
-			_numberOfLightYearsToReach = rng.Next(5 - 20);
+			_numberOfLightYearsToReach = rng.Next(5, 21);
 
 			ConfigureCorrectOption();
         }
@@ -155,7 +155,7 @@ namespace PlanetRush.Models
             char randomChar1 = (char)rng.Next('A', 'Z');
             char randomChar2 = (char)rng.Next('A', 'Z');
 
-			int part3Name = rng.Next(1000 - 10000);
+			int part3Name = rng.Next(1000, 10000);
 
             _name = $"{part1Name}-{randomChar1}{randomChar2}-{part3Name}";
 				return _name;
