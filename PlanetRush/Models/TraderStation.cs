@@ -20,7 +20,7 @@ namespace PlanetRush.Models
             get { return _desiredMetal; }
             set
             {
-                if (_desiredMetal.Equals(TrilliumAlloys) || _desiredMetal.Equals(RawAetherium))
+                if (value == TrilliumAlloys || value == RawAetherium) // value controleren, niet _desiredMetal, want value is de nieuwe waarde die binnenkomt, _desiredMetal is de huidige interne toestand
                 {
                     _desiredMetal = value;
                 }
@@ -61,8 +61,8 @@ namespace PlanetRush.Models
 
             
             Random rng = new Random();
-            int desiredMetalChance = rng.Next(2);
-            switch (desiredMetalChance)
+            int desiredMetalOption = rng.Next(2);
+            switch (desiredMetalOption)
             {
                 case 0:
                     DesiredMetal = "Trillium Alloys"; //property ipv veld? 
@@ -71,6 +71,7 @@ namespace PlanetRush.Models
 
                 case 1:
                     DesiredMetal = "Raw Aetherium";
+                    
                     FuelForMetalRate = rng.Next(2, 7);
                     break;
                 
@@ -99,9 +100,10 @@ namespace PlanetRush.Models
                 Console.WriteLine();
                 Console.Write("Choose an option: ");
                 option = Console.ReadLine();
-                while (option != "1" || option != "2")
+                while (option != "1" && option != "2")
                 {
                     Console.Write("Choose a valid option instead: ");
+                    option = Console.ReadLine();
                 }
                 switch (option)
                 {
