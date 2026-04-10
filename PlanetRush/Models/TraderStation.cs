@@ -12,7 +12,7 @@ namespace PlanetRush.Models
         private const string TrilliumAlloys = "Trillium Alloys";
         private const string RawAetherium = "Raw Aetherium";
 
-        private string _desiredMetal;
+        private string _desiredMetal = ""; // waarschuwingsmelding wegwerken bij de constructur TraderStation door hier alvast een lege waarde toe te kennen
 
         public string DesiredMetal
         {
@@ -54,6 +54,29 @@ namespace PlanetRush.Models
             set { _planet = value; }
         }
 
+        public TraderStation(Planet planet)
+        {
+            Planet = planet;
+
+            
+            Random rng = new Random();
+            int desiredMetalChance = rng.Next(2);
+            switch (desiredMetalChance)
+            {
+                case 0:
+                    DesiredMetal = "Trillium Alloys"; //property ipv veld? 
+                    FuelForMetalRate = rng.Next(10, 20);
+                    break;
+
+                case 1:
+                    DesiredMetal = "Raw Aetherium";
+                    FuelForMetalRate = rng.Next(2, 7);
+                    break;
+                
+            }
+
+            HasWarpDriveChargesForSale = (rng.Next(10) == 0); // alleen als het 0 is true, bij 1 tem 9 false
+        }
 
 
     }
