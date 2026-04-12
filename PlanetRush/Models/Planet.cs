@@ -21,6 +21,7 @@ namespace PlanetRush.Models
 			_radius = rng.Next(4, 14);
 			_seed = rng.Next();
 			_name = GeneratePlanetCode(galaxyCode);
+			
 			_tonsOfRawAetherium = rng.Next(10, 111);
 			_tonsOfTrilliumAlloys = rng.Next(-10, 31);
 			if (_tonsOfTrilliumAlloys < 0)
@@ -138,6 +139,7 @@ namespace PlanetRush.Models
 		private string GeneratePlanetCode(int galaxyCode = 0)
 		{
 			string part1Name;
+						
 			if (galaxyCode == 1)
 			{
 				part1Name = "M31";
