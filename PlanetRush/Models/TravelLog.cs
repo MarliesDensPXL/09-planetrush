@@ -31,7 +31,13 @@ namespace PlanetRush.Models
 		public string ActionTaken
 		{
 			get { return _actionTaken; }
-			set { _actionTaken = value; }
+			set 
+				{ 
+				if (value.Equals("Terraformed") || value.Equals("Genestealed") || value.Equals("Nuked"))
+				{
+                    _actionTaken = value;
+                }
+				 }
 		}
 
 		private bool _isSuccesfullyDepleted;
