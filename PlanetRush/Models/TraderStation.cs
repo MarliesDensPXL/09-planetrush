@@ -58,8 +58,7 @@ namespace PlanetRush.Models
         public TraderStation(Planet planet)
         {
             Planet = planet;
-
-            
+                        
             Random rng = new Random();
             int desiredMetalOption = rng.Next(2);
             switch (desiredMetalOption)
