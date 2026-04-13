@@ -103,7 +103,7 @@ namespace PlanetRush.Models
 				  PlanetVisited.ToString(),
 				  ActionTaken,
 				  IsSuccesfullyDepleted.ToString(),
-				  rawAetherium,
+				  rawAetherium, 
 				  trilliumAlloys
 			};
 
