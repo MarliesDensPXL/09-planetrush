@@ -75,6 +75,7 @@ namespace PlanetRush.Models
 				rows.Add(log.ToStringArray());
 			}
 
+
 			return rows;
 		}
 
