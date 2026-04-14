@@ -63,15 +63,15 @@ namespace PlanetRush.Models
 			get { return _trilliumAlloysDepleted; }
 		}
 
-		public TravelLog(int number, Planet planetVisited, string actionTaken, bool isSuccesfullyDepleted, int rawAetheriumDepleted, int trilliumAlloysDepleted)
+		public TravelLog(int number, Planet planetVisited, string actionTaken, bool isSuccesfullyDepleted) //, int rawAetheriumDepleted, int trilliumAlloysDepleted)
         {
 			Number = number;
 			PlanetVisited = planetVisited;
 			ActionTaken = actionTaken;
 			IsSuccesfullyDepleted = isSuccesfullyDepleted;
 
-			_rawAetheriumDepleted = rawAetheriumDepleted;
-			_trilliumAlloysDepleted = trilliumAlloysDepleted;
+			//_rawAetheriumDepleted = rawAetheriumDepleted;
+			//_trilliumAlloysDepleted = trilliumAlloysDepleted;
 
 
         }

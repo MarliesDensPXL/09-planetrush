@@ -5,6 +5,7 @@ using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 using PlanetRush.Sounds;
+using PlanetRush.Visuals;
 
 namespace PlanetRush.Models
 {
@@ -99,7 +100,7 @@ namespace PlanetRush.Models
                 Console.WriteLine();
                 Console.Write("Choose an option: ");
                 option = Console.ReadLine();
-                while (option != "1" && option != "2")
+                while (option != "1" && option != "2" && option != "3")
                 {
                     Console.Write("Choose a valid option instead: ");
                     option = Console.ReadLine();
@@ -113,6 +114,11 @@ namespace PlanetRush.Models
                     case "2":
                         string leaveTraderStation = "You leave the safety of the trader station and journey back into the eternal void of deepspace.";
                         Console.WriteLine($"{leaveTraderStation}");
+                        break;
+                    case "3":
+                        Console.WriteLine("In the safety of the trader station you take the time to look at your travel logs.");
+                        AsciiEffects.PressEnterToContinue();
+                        TableViewer.ViewTable(player.GetTravelLogRows(), TravelLog.GetStringArrayHeaders(), true);
                         break;
                 }
 

@@ -37,6 +37,7 @@ namespace PlanetRush.Models
 		public Player()
 		{
 			Spacecraft = new Spacecraft(); //code aangepast van 'Spacecraft spacecraft = new Spacecraft(); naar dit (op aanraden van Copilot)
+			_travelLogs = new List<TravelLog>();
 		}
 
         public int LitersOfFuel
@@ -54,6 +55,27 @@ namespace PlanetRush.Models
 		public void TravelLightYears(int ligthYears)
 		{
 			Spacecraft.CurrentFuel -= (ligthYears * Spacecraft.EngineEfficiency);
+		}
+
+		private List<TravelLog> _travelLogs;
+
+		public void RecordTravelLog(int number, Planet planetVisited, string actionTaken, bool isSuccesfullyDepleted) //, int rawAetheriumDepleted, int trilliumAlloysDepleted)
+		{
+			TravelLog log = new TravelLog(number, planetVisited, actionTaken, isSuccesfullyDepleted); //, rawAetheriumDepleted, trilliumAlloysDepleted);
+
+			_travelLogs.Add(log);
+		}
+
+		public List<string[]> GetTravelLogRows()
+		{
+			List<string[]> rows = new List<string[]>();
+
+			foreach (TravelLog log in _travelLogs)
+			{
+				rows.Add(log.ToStringArray());
+			}
+
+			return rows;
 		}
 
     }

@@ -69,8 +69,8 @@ namespace PlanetRush
                 #endregion
 
                 #region RecordTravelLog
-                //string actionTaken = new string[] { "Terraformed", "Genestealed", "Nuked" }[currentSelectedOption];
-                //player.RecordTravelLog(numberOfPlanetsTravelled, planet, actionTaken, isSuccesfullExcavation);
+                string actionTaken = new string[] { "Terraformed", "Genestealed", "Nuked" }[currentSelectedOption];
+                player.RecordTravelLog(numberOfPlanetsTravelled, planet, actionTaken, isSuccesfullExcavation);
                 #endregion
 
                 bool isTradingActive = true;
